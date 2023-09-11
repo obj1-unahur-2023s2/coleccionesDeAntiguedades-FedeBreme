@@ -1,0 +1,65 @@
+import casaDeAntiguedades.*
+import antiguedades.*
+
+describe "test de antiguedades" {
+	method initialize() {
+		casaDeAntiguedades.adquirirLoteDeAntiguedades([camisetaDeAlumni, libroDeFreudOriginal, santoGrial])
+	}
+	
+	test "restaurar la camiseta de alumni" {
+		casaDeAntiguedades.restaurar(camisetaDeAlumni)
+		assert.notThat(camisetaDeAlumni.estaDesgastada())
+	}
+	
+	test "a la lista de antiguedades se le suma un tocaDisco" {
+		casaDeAntiguedades.adquirirAntiguedad(tocaDisco)
+		assert.equals(4, casaDeAntiguedades.cantidadDeAntiguedades())
+	}
+	
+	test "hay alguna antiguedad en stock" {
+		assert.that(casaDeAntiguedades.hayAntiguedadEnStock())
+	}
+	
+	test "la ultima antiguedad de la lista original es el santoGrial" {
+		assert.equals(santoGrial, casaDeAntiguedades.ultimaAntiguedad())
+	}
+	
+	test "el libroDeFreudOriginal es muy antiguo" {
+		assert.that(casaDeAntiguedades.esMuyAntigua(libroDeFreudOriginal))
+	}
+	
+	test "los años de antiguedad de la posicion 1 de la lista son de 500 años" {
+		assert.equals(500, casaDeAntiguedades.calcularAniosDeLaUbicacion(1))
+	}
+	
+	test "venden todos los objetos de la coleccion y no queda nada" {
+		casaDeAntiguedades.venderTodo()
+		assert.equals([], casaDeAntiguedades.coleccionDeAntiguedadesActual())
+	}
+}
+
+describe "tests de restauracion" {
+	method initialize() {
+		casaDeAntiguedades.adquirirLoteDeAntiguedades([botinesDeBochini, tocaDisco, guitarraDeSlash])	
+	}
+	
+	test "restaura la primera antiguedad de la lista" {
+		casaDeAntiguedades.restaurar(casaDeAntiguedades.coleccionDeAntiguedadesActual().first())
+		assert.notThat(casaDeAntiguedades.coleccionDeAntiguedadesActual().first().estaDesgastada())
+	}
+	
+	test "restaura la ultima antiguedad de la lista" {
+		casaDeAntiguedades.restaurar(casaDeAntiguedades.coleccionDeAntiguedadesActual().last())
+		assert.notThat(casaDeAntiguedades.coleccionDeAntiguedadesActual().last().estaDesgastada())
+	}
+	
+	test "restaura una antiguedad ubicada en la posicion 1 de la lista" {
+		casaDeAntiguedades.restaurar(casaDeAntiguedades.antiguedadDeLaUbicacion(1))
+		assert.notThat(casaDeAntiguedades.antiguedadDeLaUbicacion(1).estaDesgastada())
+	}
+	
+	test "restaura la camperaPuma1986" {
+		casaDeAntiguedades.restaurar(camperaPuma1986)
+		assert.notThat(camperaPuma1986.estaDesgastada())
+	} 
+}
